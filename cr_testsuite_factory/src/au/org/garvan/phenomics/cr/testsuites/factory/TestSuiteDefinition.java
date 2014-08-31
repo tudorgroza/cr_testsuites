@@ -22,7 +22,7 @@ public class TestSuiteDefinition {
 		compositeTestCases = new LinkedHashMap<Integer, ICompositeTestCase>();
 		testCaseProperties = new LinkedHashMap<ITestCase, Properties>();
 	}
-
+	
 	public void addTestCase(ITestCase testCase, Properties properties) {
 		if (testCase instanceof ISimpleTestCase) {
 			curentCount++;

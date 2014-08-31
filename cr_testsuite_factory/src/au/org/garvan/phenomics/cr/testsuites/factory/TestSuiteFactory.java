@@ -74,8 +74,8 @@ public class TestSuiteFactory {
 		return map;
 	}
 
-	public TestSuite generateTestSuite(TestSuiteDefinition tsDefition, IEntityIterator entityIterator) {
-		return new TestSuiteGenerator(tsDefition, entityIterator).getTestSuite();
+	public TestSuite generateTestSuite(TestSuiteDefinition tsDefinition, IEntityIterator entityIterator) {
+		return new TestSuiteGenerator(tsDefinition, entityIterator).getTestSuite();
 	}
 	
 	public static void main(String[] args) {

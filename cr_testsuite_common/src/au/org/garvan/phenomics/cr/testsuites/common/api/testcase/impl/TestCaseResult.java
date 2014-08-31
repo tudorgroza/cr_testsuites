@@ -41,6 +41,11 @@ public class TestCaseResult implements ITestCaseResult {
 		return uri;
 	}
 
+	@Override
+	public String toString() {
+		return textualGrouding + " (" + uri +")";
+	}
+	
 	public void setUri(String uri) {
 		this.uri = uri;
 	}

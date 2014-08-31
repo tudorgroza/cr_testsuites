@@ -45,7 +45,7 @@ public class RandomContainsArabicTestCase implements ISimpleTestCase {
 					result.setOriginalLabel(label);
 					result.setTextualGrouding(label);
 					result.setUri(profile.getUri());
-					testCaseResult.add(result);
+					testCases.add(result);
 					found = true;
 					
 					break;
@@ -84,7 +84,7 @@ public class RandomContainsArabicTestCase implements ISimpleTestCase {
 
 	@Override
 	public String getId() {
-		return "#ContainsNumerals_Arabic-Random";
+		return "arabic";
 	}
 
 	@Override

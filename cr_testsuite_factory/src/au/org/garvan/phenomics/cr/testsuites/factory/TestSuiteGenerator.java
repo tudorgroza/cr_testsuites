@@ -64,11 +64,11 @@ public class TestSuiteGenerator {
 			Properties properties = tcIterator.getProperties(testCase);
 			testCase.runTestCases(properties);
 			if (testCase instanceof ICompositeTestCase) {
-				Map<String, ITestCaseResult> map = ((ICompositeTestCase) testCase).retrieveTestCases();
-				testSuite.addResult(map);
+				Map<String, List<ITestCaseResult>> map = ((ICompositeTestCase) testCase).retrieveTestCases();
+				testSuite.addResult(testCase.getId(), map);
 			} else {
 				List<ITestCaseResult> result = ((ISimpleTestCase) testCase).retrieveTestCases();
-				testSuite.addResult(result);
+				testSuite.addResult(testCase.getId(), result);
 			}
 		}		
 		logger.info("Done creating test cases ...");
