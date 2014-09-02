@@ -28,7 +28,7 @@ public class DefinitionLoader {
 		Properties properties = new Properties();
 		try {
 			properties.load(new FileReader(defFile));
-			Map<Integer, Map<String, String>> propValues = new HashMap<Integer, Map<String,String>>();
+			Map<Integer, Map<String, String>> propValues = new HashMap<Integer, Map<String, String>>();
 			List<Integer> indexes = new ArrayList<Integer>();
 			
 			for (Object key : properties.keySet()) {
@@ -43,20 +43,10 @@ public class DefinitionLoader {
 				if (!indexes.contains(idx)) {
 					indexes.add(idx);
 				}
+				Map<String, String> map = propValues.containsKey(idx) ? propValues.get(idx) : new HashMap<String, String>();
+				map.put(actualProperty, properties.getProperty(propName));
+				propValues.put(idx, map);
 				
-				if (actualProperty.equalsIgnoreCase("property")) {
-					index = actualProperty.indexOf("[");
-					index2 = actualProperty.indexOf("]");
-					
-					String pName = actualProperty.substring(index + 1, index2).trim();
-					Map<String, String> map = propValues.containsKey(idx) ? propValues.get(idx) : new HashMap<String, String>();
-					map.put(pName, properties.getProperty(propName));
-					propValues.put(idx, map);
-				} else {
-					Map<String, String> map = propValues.containsKey(idx) ? propValues.get(idx) : new HashMap<String, String>();
-					map.put(actualProperty, properties.getProperty(propName));
-					propValues.put(idx, map);
-				}
 			}
 			
 			Collections.sort(indexes);
@@ -68,20 +58,59 @@ public class DefinitionLoader {
 		}
 	}
 
-	private void addTestCase(Map<String, String> map) {
-		String id = map.get("id");
-		Properties properties = new Properties();
-		for (String key : map.keySet()) {
-			if (!key.equalsIgnoreCase("id")) {
-				int index = key.indexOf("[");
-				int index2 = key.indexOf("]");
-				if (index != -1 && index2 != -1) {
-					properties.put(key.substring(index + 1, index2).trim(), map.get(key));
+	private void addTestCase(Map<String, String> rawProperties) {
+		String id = null;
+		Properties simpleProperties = new Properties();
+		Map<String, Properties> compositeProperties = new HashMap<String, Properties>();
+		
+		for (String rawP : rawProperties.keySet()) {
+			String rawPValue = rawProperties.get(rawP);
+			
+			if (rawP.startsWith("id")) {
+				id = rawPValue;
+			}
+			if (rawP.startsWith("property")) {
+				String pName = parsePName(rawP);
+				if (pName != null) {
+					simpleProperties.put(pName, rawPValue);
+				}
+			}
+			if (rawP.startsWith("set")) {
+				String setId = parsePName(rawP);
+				if (setId != null) {
+					Properties propMap = compositeProperties.containsKey(setId) ? compositeProperties.get(setId) : new Properties();
+					String setProp = parsePPName(rawP);
+					if (setProp != null) {
+						propMap.put(setProp, rawPValue);
+						compositeProperties.put(setId, propMap);
+					}
 				}
 			}
 		}
 		
-		tsDefinition.addTestCase(tsFactory.getAllTestCases().get(id), properties);
+		if (simpleProperties.isEmpty()) {
+			tsDefinition.addCompositeTestCase(tsFactory.getAllTestCases().get(id), compositeProperties);
+		} else {
+			tsDefinition.addSimpleTestCase(tsFactory.getAllTestCases().get(id), simpleProperties);
+		}
+	}
+
+	private String parsePPName(String rawP) {
+		int index = rawP.lastIndexOf("[");
+		int index2 = rawP.lastIndexOf("]");
+		if (index != -1 && index2 != -1) {
+			return rawP.substring(index + 1, index2);
+		}		
+		return null;
+	}
+
+	private String parsePName(String rawP) {
+		int index = rawP.indexOf("[");
+		int index2 = rawP.indexOf("]");
+		if (index != -1 && index2 != -1) {
+			return rawP.substring(index + 1, index2);
+		}		
+		return null;
 	}
 
 	public TestSuiteDefinition getTsDefinition() {

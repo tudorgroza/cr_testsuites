@@ -17,7 +17,7 @@ public class RandomContainsArabicTestCase implements ISimpleTestCase {
 
 	private final static int DEFAULT_NO_ENTRIES = 5;
 	
-	private Properties acceptedProperties;
+	private Properties defaultProperties;
 	
 	private List<ITestCaseResult> testCaseResult;
 	private List<ITestCaseResult> testCases;
@@ -26,8 +26,8 @@ public class RandomContainsArabicTestCase implements ISimpleTestCase {
 	 * No general properties required
 	 */
 	public RandomContainsArabicTestCase(Properties properties) {
-		acceptedProperties = new Properties();
-		acceptedProperties.put(TestCasesStandardProperties.NO_ENTRIES, DEFAULT_NO_ENTRIES);
+		defaultProperties = new Properties();
+		defaultProperties.put(TestCasesStandardProperties.NO_ENTRIES, DEFAULT_NO_ENTRIES);
 
 		testCaseResult = new ArrayList<ITestCaseResult>();
 		testCases = new ArrayList<ITestCaseResult>();
@@ -84,7 +84,7 @@ public class RandomContainsArabicTestCase implements ISimpleTestCase {
 
 	@Override
 	public String getId() {
-		return "arabic";
+		return "Contains-Arabic";
 	}
 
 	@Override
@@ -96,8 +96,10 @@ public class RandomContainsArabicTestCase implements ISimpleTestCase {
 	 * Accepts: NO_ENTRIES - number of entries in the test case
 	 */
 	@Override
-	public Properties getAcceptedProperties() {
-		return acceptedProperties;
+	public List<String> getAcceptedProperties() {
+		List<String> list = new ArrayList<String>();
+		list.add(TestCasesStandardProperties.NO_ENTRIES);
+		return list;
 	}
 
 	@Override

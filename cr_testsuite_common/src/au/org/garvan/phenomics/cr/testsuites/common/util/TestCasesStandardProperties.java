@@ -6,5 +6,7 @@ public class TestCasesStandardProperties {
 	 * NO_ENTRIES - number of entries in the test case
 	 */
 	public static final String NO_ENTRIES = "NO_ENTRIES";
-	
+
+	public static final String STOP_WORD = "STOP_WORD";
+
 }

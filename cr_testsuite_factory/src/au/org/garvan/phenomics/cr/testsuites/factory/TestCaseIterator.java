@@ -13,18 +13,21 @@ public class TestCaseIterator implements ITestCaseIterator {
 	private Map<Integer, ISimpleTestCase> simpleTestCases;
 	private Map<Integer, ICompositeTestCase> compositeTestCases;
 
-	private Map<ITestCase, Properties> testCaseProperties;
+	private Map<ISimpleTestCase, Properties> simpleTestCaseProperties;
+	private Map<ICompositeTestCase, Map<String, Properties>> compositeTestCaseProperties;
 	
 	private int current;
 	private int total;
 	
 	public TestCaseIterator(Map<Integer, ISimpleTestCase> simpleTestCases,
 			Map<Integer, ICompositeTestCase> compositeTestCases,
-			Map<ITestCase, Properties> testCaseProperties) {
+			Map<ISimpleTestCase, Properties> simpleTestCaseProperties,
+			Map<ICompositeTestCase, Map<String, Properties>> compositeTestCaseProperties) {
 		this.simpleTestCases = simpleTestCases;
 		this.compositeTestCases = compositeTestCases;
 
-		this.testCaseProperties = testCaseProperties;
+		this.simpleTestCaseProperties = simpleTestCaseProperties;
+		this.compositeTestCaseProperties = compositeTestCaseProperties;
 
 		current = 1;
 		total = simpleTestCases.size() + compositeTestCases.size();
@@ -48,10 +51,15 @@ public class TestCaseIterator implements ITestCaseIterator {
 	}
 
 	@Override
-	public Properties getProperties(ITestCase testCase) {
-		return testCaseProperties.get(testCase);
+	public Properties getPropertiesForSimpleTestCase(ISimpleTestCase testCase) {
+		return simpleTestCaseProperties.get(testCase);
 	}
-	
+
+	@Override
+	public Map<String, Properties> getPropertiesForCompositeTestCase(ICompositeTestCase testCase) {
+		return compositeTestCaseProperties.get(testCase);
+	}
+
 	@Override
 	public void remove() {
 		//Not implemented

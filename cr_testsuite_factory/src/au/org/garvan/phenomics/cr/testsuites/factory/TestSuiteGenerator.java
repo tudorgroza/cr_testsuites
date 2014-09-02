@@ -61,13 +61,17 @@ public class TestSuiteGenerator {
 		ITestCaseIterator tcIterator = tsDefition.iterator();
 		while (tcIterator.hasNext()) {
 			ITestCase testCase = tcIterator.next();
-			Properties properties = tcIterator.getProperties(testCase);
-			testCase.runTestCases(properties);
 			if (testCase instanceof ICompositeTestCase) {
-				Map<String, List<ITestCaseResult>> map = ((ICompositeTestCase) testCase).retrieveTestCases();
+				ICompositeTestCase compTestCase = (ICompositeTestCase) testCase;
+				Map<String, Properties> properties = tcIterator.getPropertiesForCompositeTestCase(compTestCase);
+				compTestCase.runTestCases(properties);
+				Map<String, List<ITestCaseResult>> map = compTestCase.retrieveTestCases();
 				testSuite.addResult(testCase.getId(), map);
 			} else {
-				List<ITestCaseResult> result = ((ISimpleTestCase) testCase).retrieveTestCases();
+				ISimpleTestCase simpleTestCase = (ISimpleTestCase) testCase;
+				Properties properties = tcIterator.getPropertiesForSimpleTestCase(simpleTestCase);
+				simpleTestCase.runTestCases(properties);
+				List<ITestCaseResult> result = simpleTestCase.retrieveTestCases();
 				testSuite.addResult(testCase.getId(), result);
 			}
 		}		
