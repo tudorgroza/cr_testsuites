@@ -4,24 +4,25 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
-import au.org.garvan.phenomics.cr.testsuites.common.api.input.IEntityIterator;
-import au.org.garvan.phenomics.cr.testsuites.common.api.input.IEntityProfile;
-import au.org.garvan.phenomics.cr.testsuites.common.api.input.IInputDataWrapper;
-import au.org.garvan.phenomics.cr.testsuites.common.api.input.exception.DataSourceLoadingException;
-import au.org.garvan.phenomics.cr.testsuites.common.api.input.exception.DataSourcePropertiesLoadingException;
-import au.org.garvan.phenomics.cr.testsuites.common.api.input.exception.InvalidMetadataException;
-import au.org.garvan.phenomics.cr.testsuites.common.api.input.exception.NonExistingDataWrapperException;
-import au.org.garvan.phenomics.cr.testsuites.log.TestSuitesLogger;
+import au.org.garvan.phenomics.cr.testsuite.common.api.input.IEntityIterator;
+import au.org.garvan.phenomics.cr.testsuite.common.api.input.IEntityProfile;
+import au.org.garvan.phenomics.cr.testsuite.common.api.input.IInputDataWrapper;
+import au.org.garvan.phenomics.cr.testsuite.common.api.input.exception.DataSourceLoadingException;
+import au.org.garvan.phenomics.cr.testsuite.common.api.input.exception.DataSourcePropertiesLoadingException;
+import au.org.garvan.phenomics.cr.testsuite.common.api.input.exception.InvalidMetadataException;
+import au.org.garvan.phenomics.cr.testsuite.common.api.input.exception.NonExistingDataWrapperException;
+import au.org.garvan.phenomics.cr.testsuite.inputwrapper.InputWrapperManager;
+import au.org.garvan.phenomics.cr.testsuite.log.TestSuiteLogger;
 
 public class InputWrapperTest extends TestCase {
 
 	@SuppressWarnings("unchecked")
-	private static TestSuitesLogger<InputWrapperTest> logger = (TestSuitesLogger<InputWrapperTest>) TestSuitesLogger
+	private static TestSuiteLogger<InputWrapperTest> logger = (TestSuiteLogger<InputWrapperTest>) TestSuiteLogger
 			.getLogger(InputWrapperTest.class);
 
 	@Test
 	public void testInputWrapper() {
-		TestSuitesLogger.setUpLogger("DEBUG");
+		TestSuiteLogger.setUpLogger("DEBUG");
 		
 		String mainPath = "/home/tudor/EXTRA_SPACE/NEW_TestSuites";
 		String propFile = mainPath + "/input_wrapper.properties";

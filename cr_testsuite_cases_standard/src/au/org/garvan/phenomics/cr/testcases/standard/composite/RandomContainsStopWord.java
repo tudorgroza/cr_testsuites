@@ -10,11 +10,11 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
 
-import au.org.garvan.phenomics.cr.testsuites.common.api.input.IEntityProfile;
-import au.org.garvan.phenomics.cr.testsuites.common.api.testcase.ICompositeTestCase;
-import au.org.garvan.phenomics.cr.testsuites.common.api.testcase.ITestCaseResult;
-import au.org.garvan.phenomics.cr.testsuites.common.api.testcase.impl.TestCaseResult;
-import au.org.garvan.phenomics.cr.testsuites.common.util.TestCasesStandardProperties;
+import au.org.garvan.phenomics.cr.testsuite.common.api.input.IEntityProfile;
+import au.org.garvan.phenomics.cr.testsuite.common.api.testcase.ICompositeTestCase;
+import au.org.garvan.phenomics.cr.testsuite.common.api.testcase.ITestCaseConcept;
+import au.org.garvan.phenomics.cr.testsuite.common.api.testcase.impl.TestCaseConcept;
+import au.org.garvan.phenomics.cr.testsuite.common.util.TestCasesStandardProperties;
 
 public class RandomContainsStopWord implements ICompositeTestCase {
 
@@ -23,15 +23,15 @@ public class RandomContainsStopWord implements ICompositeTestCase {
 
 	private Map<String, Properties> defaultProperties;
 	
-	private Map<String, List<ITestCaseResult>> testCaseResult;
-	private Map<String, Map<String, List<ITestCaseResult>>> testCases;
+	private Map<String, List<ITestCaseConcept>> testCaseResult;
+	private Map<String, Map<String, List<ITestCaseConcept>>> testCases;
 	
 	public RandomContainsStopWord(Properties properties) {
 		defaultProperties = new LinkedHashMap<String, Properties>();
 		createDefaultProperties();
 		
-		testCaseResult = new HashMap<String, List<ITestCaseResult>>();
-		testCases = new HashMap<String, Map<String, List<ITestCaseResult>>>();
+		testCaseResult = new HashMap<String, List<ITestCaseConcept>>();
+		testCases = new HashMap<String, Map<String, List<ITestCaseConcept>>>();
 	}
 
 	private void createDefaultProperties() {
@@ -81,10 +81,10 @@ public class RandomContainsStopWord implements ICompositeTestCase {
 			for (String token : tokens) {
 				token = token.trim().toLowerCase();
 				if (!token.equalsIgnoreCase("")) {
-					Map<String, List<ITestCaseResult>> map = testCases.containsKey(token) ? testCases.get(token) : new HashMap<String, List<ITestCaseResult>>();
-					List<ITestCaseResult> list = map.containsKey(profile.getUri()) ? map.get(profile.getUri()) : new ArrayList<ITestCaseResult>();
+					Map<String, List<ITestCaseConcept>> map = testCases.containsKey(token) ? testCases.get(token) : new HashMap<String, List<ITestCaseConcept>>();
+					List<ITestCaseConcept> list = map.containsKey(profile.getUri()) ? map.get(profile.getUri()) : new ArrayList<ITestCaseConcept>();
 					
-					TestCaseResult result = new TestCaseResult();
+					TestCaseConcept result = new TestCaseConcept();
 					result.setOriginalLabel(label);
 					result.setTextualGrouding(label);
 					result.setUri(profile.getUri());
@@ -116,11 +116,11 @@ public class RandomContainsStopWord implements ICompositeTestCase {
 			return;
 		}
 
-		Map<String, List<ITestCaseResult>> map = testCases.get(stopWord.toLowerCase());
+		Map<String, List<ITestCaseConcept>> map = testCases.get(stopWord.toLowerCase());
 		
 		if (noEntries < map.size()) {
 			List<Integer> randomNumbers = generateRandom(noEntries, map.size());
-			List<ITestCaseResult> list = new ArrayList<ITestCaseResult>();
+			List<ITestCaseConcept> list = new ArrayList<ITestCaseConcept>();
 
 			Iterator<String> uris = map.keySet().iterator();
 			int count = 0;
@@ -132,7 +132,7 @@ public class RandomContainsStopWord implements ICompositeTestCase {
 				String uri = uris.next();
 				int current = randomNumbers.get(randomNumbers.size() - left);
 				if (count == current) {
-					List<ITestCaseResult> testCaseList = map.get(uri);
+					List<ITestCaseConcept> testCaseList = map.get(uri);
 					list.add(testCaseList.get(0));
 					left--;
 				}
@@ -142,9 +142,9 @@ public class RandomContainsStopWord implements ICompositeTestCase {
 			
 			testCaseResult.put(ID + "-" + subTestCase, list);
 		} else {
-			List<ITestCaseResult> list = new ArrayList<ITestCaseResult>();
+			List<ITestCaseConcept> list = new ArrayList<ITestCaseConcept>();
 			for (String uri : map.keySet()) {
-				List<ITestCaseResult> testCaseList = map.get(uri);
+				List<ITestCaseConcept> testCaseList = map.get(uri);
 				list.add(testCaseList.get(0));
 			}
 			testCaseResult.put(ID + "-" + subTestCase, list);
@@ -169,12 +169,12 @@ public class RandomContainsStopWord implements ICompositeTestCase {
 
 	@Override
 	public void reset() {
-		testCases = new HashMap<String, Map<String, List<ITestCaseResult>>>();
-		testCaseResult = new HashMap<String, List<ITestCaseResult>>();
+		testCases = new HashMap<String, Map<String, List<ITestCaseConcept>>>();
+		testCaseResult = new HashMap<String, List<ITestCaseConcept>>();
 	}
 
 	@Override
-	public Map<String, List<ITestCaseResult>> retrieveTestCases() {
+	public Map<String, List<ITestCaseConcept>> retrieveTestCases() {
 		return testCaseResult;
 	}
 

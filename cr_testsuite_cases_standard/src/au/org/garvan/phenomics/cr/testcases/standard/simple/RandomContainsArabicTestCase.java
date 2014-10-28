@@ -7,11 +7,11 @@ import java.util.Random;
 
 import org.apache.commons.lang3.StringUtils;
 
-import au.org.garvan.phenomics.cr.testsuites.common.api.input.IEntityProfile;
-import au.org.garvan.phenomics.cr.testsuites.common.api.testcase.ISimpleTestCase;
-import au.org.garvan.phenomics.cr.testsuites.common.api.testcase.ITestCaseResult;
-import au.org.garvan.phenomics.cr.testsuites.common.api.testcase.impl.TestCaseResult;
-import au.org.garvan.phenomics.cr.testsuites.common.util.TestCasesStandardProperties;
+import au.org.garvan.phenomics.cr.testsuite.common.api.input.IEntityProfile;
+import au.org.garvan.phenomics.cr.testsuite.common.api.testcase.ISimpleTestCase;
+import au.org.garvan.phenomics.cr.testsuite.common.api.testcase.ITestCaseConcept;
+import au.org.garvan.phenomics.cr.testsuite.common.api.testcase.impl.TestCaseConcept;
+import au.org.garvan.phenomics.cr.testsuite.common.util.TestCasesStandardProperties;
 
 public class RandomContainsArabicTestCase implements ISimpleTestCase {
 
@@ -19,8 +19,8 @@ public class RandomContainsArabicTestCase implements ISimpleTestCase {
 	
 	private Properties defaultProperties;
 	
-	private List<ITestCaseResult> testCaseResult;
-	private List<ITestCaseResult> testCases;
+	private List<ITestCaseConcept> testCaseResult;
+	private List<ITestCaseConcept> testCases;
 
 	/**
 	 * No general properties required
@@ -29,8 +29,8 @@ public class RandomContainsArabicTestCase implements ISimpleTestCase {
 		defaultProperties = new Properties();
 		defaultProperties.put(TestCasesStandardProperties.NO_ENTRIES, DEFAULT_NO_ENTRIES);
 
-		testCaseResult = new ArrayList<ITestCaseResult>();
-		testCases = new ArrayList<ITestCaseResult>();
+		testCaseResult = new ArrayList<ITestCaseConcept>();
+		testCases = new ArrayList<ITestCaseConcept>();
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class RandomContainsArabicTestCase implements ISimpleTestCase {
 			String[] tokens = label.split(" ");
 			for (String token : tokens) {
 				if (StringUtils.isNumeric(token)) {
-					TestCaseResult result = new TestCaseResult();
+					TestCaseConcept result = new TestCaseConcept();
 					result.setOriginalLabel(label);
 					result.setTextualGrouding(label);
 					result.setUri(profile.getUri());
@@ -71,15 +71,15 @@ public class RandomContainsArabicTestCase implements ISimpleTestCase {
 		Random random = new Random(testCases.size());
 		for (int i = 0; i < noEntries; i++) {
 			int nextRandom = random.nextInt(testCases.size());
-			ITestCaseResult testCase = testCases.get(nextRandom);
+			ITestCaseConcept testCase = testCases.get(nextRandom);
 			testCaseResult.add(testCase);
 		}
 	}
 
 	@Override
 	public void reset() {
-		testCases = new ArrayList<ITestCaseResult>();
-		testCaseResult = new ArrayList<ITestCaseResult>();
+		testCases = new ArrayList<ITestCaseConcept>();
+		testCaseResult = new ArrayList<ITestCaseConcept>();
 	}
 
 	@Override
@@ -103,7 +103,7 @@ public class RandomContainsArabicTestCase implements ISimpleTestCase {
 	}
 
 	@Override
-	public List<ITestCaseResult> retrieveTestCases() {
+	public List<ITestCaseConcept> retrieveTestCases() {
 		return testCaseResult;
 	}
 }

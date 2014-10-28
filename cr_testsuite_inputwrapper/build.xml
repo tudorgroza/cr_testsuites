@@ -2,7 +2,7 @@
 
     <property name="binDir" value="./bin"/>
     <property name="jarDir" value="./jar"/>
-    <property name="deployDir" value="/home/tudor/EXTRA_SPACE/NEW_TestSuites/lib"/>
+    <property name="deployDir" value="/home/tudor/EXTRA_SPACE/NEW_TestSuite/lib"/>
     <property name="jarFileName" value="cr-ts_input.jar"/>
     <property name="userName" value="Tudor Groza"/>
 
